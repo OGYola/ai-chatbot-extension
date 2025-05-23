@@ -19,6 +19,7 @@ import { MessageEditor } from './message-editor';
 import { DocumentPreview } from './document-preview';
 import { MessageReasoning } from './message-reasoning';
 import type { UseChatHelpers } from '@ai-sdk/react';
+import { FoodSafetyInsightArtifact } from './FoodSafetyInsightArtifact';
 
 const PurePreviewMessage = ({
   chatId,
@@ -183,6 +184,8 @@ const PurePreviewMessage = ({
                           args={args}
                           isReadonly={isReadonly}
                         />
+                        ) : toolName === 'foodSafetyInsightTool' ? (
+                          <div className="skeleton h-[400px] w-full rounded-lg" />
                       ) : null}
                     </div>
                   );
@@ -212,6 +215,8 @@ const PurePreviewMessage = ({
                           result={result}
                           isReadonly={isReadonly}
                         />
+                        ) : toolName === 'foodSafetyInsightTool' ? (
+                          <FoodSafetyInsightArtifact data={result.data} />
                       ) : (
                         <pre>{JSON.stringify(result, null, 2)}</pre>
                       )}

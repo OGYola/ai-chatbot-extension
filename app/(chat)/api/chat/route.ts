@@ -23,6 +23,7 @@ import { createDocument } from '@/lib/ai/tools/create-document';
 import { updateDocument } from '@/lib/ai/tools/update-document';
 import { requestSuggestions } from '@/lib/ai/tools/request-suggestions';
 import { getWeather } from '@/lib/ai/tools/get-weather';
+import { foodSafetyInsightTool } from '@/lib/ai/tools/foodSafetyInsightTool';
 import { isProductionEnvironment } from '@/lib/constants';
 import { myProvider } from '@/lib/ai/providers';
 import { entitlementsByUserType } from '@/lib/ai/entitlements';
@@ -159,6 +160,7 @@ export async function POST(request: Request) {
                   'createDocument',
                   'updateDocument',
                   'requestSuggestions',
+                  'foodSafetyInsightTool',
                 ],
           experimental_transform: smoothStream({ chunking: 'word' }),
           experimental_generateMessageId: generateUUID,
@@ -170,6 +172,7 @@ export async function POST(request: Request) {
               session,
               dataStream,
             }),
+            foodSafetyInsightTool,
           },
           onFinish: async ({ response }) => {
             if (session.user?.id) {
@@ -237,6 +240,7 @@ export async function POST(request: Request) {
     if (error instanceof ChatSDKError) {
       return error.toResponse();
     }
+    return new Response('Internal Server Error', { status: 500 });
   }
 }
 
